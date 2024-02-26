@@ -1,0 +1,6 @@
+@file:Suppress("DSL_SCOPE_VIOLATION") // Suppresion for https://github.com/gradle/gradle/issues/22797 error
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    alias(libs.plugins.androidApplication).apply(false)
+    alias(libs.plugins.kotlinAndroid).apply(false)
+}
