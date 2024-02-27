@@ -13,25 +13,26 @@ data class MovieWithRatingViewState(val movieName: String, val rating: Int)
 
 class RatingsViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
-    private val _movies: MutableStateFlow<List<MovieWithRatingViewState>> = MutableStateFlow(emptyList())
-    val movies: Flow<List<MovieWithRatingViewState>> = _movies
+  private val _movies: MutableStateFlow<List<MovieWithRatingViewState>> =
+    MutableStateFlow(emptyList())
+  val movies: Flow<List<MovieWithRatingViewState>> = _movies
 
-    init {
-        fetchAllMoviesWithRatings()
-    }
+  init {
+    fetchAllMoviesWithRatings()
+  }
 
-    private fun fetchAllMoviesWithRatings() {
-        viewModelScope.launch {
-            movieRepository.fetchMoviesByCategory()
-                .map { moviesByCategories -> moviesByCategories.values.flatten() }
-                .zip(movieRepository.fetchMovieRatings()) { movies, ratings ->
-                    movies.map { movie ->
-                        val rating = ratings[movie.id]!!
-                        MovieWithRatingViewState(movie.title, rating)
-                    }
-                        .sortedByDescending { it.rating }
-                }
-                .collect { _movies.emit(it) }
+  private fun fetchAllMoviesWithRatings() {
+    viewModelScope.launch {
+      movieRepository.fetchMoviesByCategory()
+        .map { moviesByCategories -> moviesByCategories.values.flatten() }
+        .zip(movieRepository.fetchMovieRatings()) { movies, ratings ->
+          movies.map { movie ->
+            val rating = ratings[movie.id]!!
+            MovieWithRatingViewState(movie.title, rating)
+          }
+            .sortedByDescending { it.rating }
         }
+        .collect { _movies.emit(it) }
     }
+  }
 }

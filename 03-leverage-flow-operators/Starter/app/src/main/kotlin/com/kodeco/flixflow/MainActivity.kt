@@ -18,50 +18,50 @@ import com.kodeco.flixflow.feature.ratings.RatingScreen
 
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent()
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent()
+  }
 
-    private fun setContent() {
-        setContent {
-            val navController = rememberNavController()
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White
-            ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = "Home"
-                ) {
-                    composable("Home") {
-                        HomeScreen(
-                            onRatingsClicked = {
-                                navController.navigate("Ratings")
-                            },
-                            onCategoryClicked = { category ->
-                                navController.navigate("Category/$category")
-                            },
-                            onMovieClicked = {
-                                // Placeholder
-                            }
-                        )
-                    }
-                    composable(
-                        route = "Category/{categoryId}",
-                        arguments = listOf(navArgument("categoryId") { type = NavType.StringType })
-                    ) { backStackEntry ->
-                        val categoryId = backStackEntry.arguments?.getString("categoryId")!!
-                        CategoryScreen(
-                            categoryId = categoryId,
-                            onBackClicked = { navController.popBackStack() }
-                        )
-                    }
-                    composable("Ratings") {
-                        RatingScreen(onBackClicked = { navController.popBackStack() })
-                    }
-                }
-            }
+  private fun setContent() {
+    setContent {
+      val navController = rememberNavController()
+      Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White
+      ) {
+        NavHost(
+          navController = navController,
+          startDestination = "Home"
+        ) {
+          composable("Home") {
+            HomeScreen(
+              onRatingsClicked = {
+                navController.navigate("Ratings")
+              },
+              onCategoryClicked = { category ->
+                navController.navigate("Category/$category")
+              },
+              onMovieClicked = {
+                // Placeholder
+              }
+            )
+          }
+          composable(
+            route = "Category/{categoryId}",
+            arguments = listOf(navArgument("categoryId") { type = NavType.StringType })
+          ) { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("categoryId")!!
+            CategoryScreen(
+              categoryId = categoryId,
+              onBackClicked = { navController.popBackStack() }
+            )
+          }
+          composable("Ratings") {
+            RatingScreen(onBackClicked = { navController.popBackStack() })
+          }
         }
+      }
     }
+  }
 }

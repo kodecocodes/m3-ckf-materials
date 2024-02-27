@@ -23,70 +23,70 @@ import org.koin.androidx.compose.koinViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CategoryScreen(
-    categoryId: String,
-    onBackClicked: () -> Unit
+  categoryId: String,
+  onBackClicked: () -> Unit
 ) {
-    val viewModel = koinViewModel<CategoryViewModel>()
+  val viewModel = koinViewModel<CategoryViewModel>()
 
-    LaunchedEffect(Unit) { viewModel.initCategory(categoryId = categoryId) }
+  LaunchedEffect(Unit) { viewModel.initCategory(categoryId = categoryId) }
 
-    val screenViewState by viewModel.screenViewState.collectAsState(initial = null)
-    RootContainer(
-        categoryScreenViewState = screenViewState,
-        onBackClicked = onBackClicked
-    )
+  val screenViewState by viewModel.screenViewState.collectAsState(initial = null)
+  RootContainer(
+    categoryScreenViewState = screenViewState,
+    onBackClicked = onBackClicked
+  )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RootContainer(
-    categoryScreenViewState: CategoryScreenViewState?,
-    onBackClicked: () -> Unit
+  categoryScreenViewState: CategoryScreenViewState?,
+  onBackClicked: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    )
-    if (categoryScreenViewState != null) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = categoryScreenViewState.category.name) },
-                    navigationIcon = {
-                        IconButton(onClick = onBackClicked) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                        }
-                    },
-                    colors = TopAppBarColors(
-                        containerColor = Color.Black,
-                        scrolledContainerColor = Color.Black,
-                        navigationIconContentColor = Color.White,
-                        titleContentColor = Color.White,
-                        actionIconContentColor = Color.White,
-                    )
-                )
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(Color.Black)
+  )
+  if (categoryScreenViewState != null) {
+    Scaffold(
+      topBar = {
+        TopAppBar(
+          title = { Text(text = categoryScreenViewState.category.name) },
+          navigationIcon = {
+            IconButton(onClick = onBackClicked) {
+              Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
-        ) { innerPadding ->
-            MovieGrid(movies = categoryScreenViewState.movies, innerPadding = innerPadding)
-        }
+          },
+          colors = TopAppBarColors(
+            containerColor = Color.Black,
+            scrolledContainerColor = Color.Black,
+            navigationIconContentColor = Color.White,
+            titleContentColor = Color.White,
+            actionIconContentColor = Color.White,
+          )
+        )
+      }
+    ) { innerPadding ->
+      MovieGrid(movies = categoryScreenViewState.movies, innerPadding = innerPadding)
     }
+  }
 }
 
 @Composable
 fun MovieGrid(movies: List<MovieViewState>, innerPadding: PaddingValues) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(8.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(innerPadding),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(movies) { movie ->
-            MovieCard(movie = movie, onClicked = {})
-        }
+  LazyVerticalGrid(
+    columns = GridCells.Fixed(2),
+    contentPadding = PaddingValues(8.dp),
+    modifier = Modifier
+      .fillMaxSize()
+      .background(Color.Black)
+      .padding(innerPadding),
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+    verticalArrangement = Arrangement.spacedBy(8.dp)
+  ) {
+    items(movies) { movie ->
+      MovieCard(movie = movie, onClicked = {})
     }
+  }
 }

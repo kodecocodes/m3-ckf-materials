@@ -7,31 +7,32 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val movieRepository: MovieRepository,
+  private val movieRepository: MovieRepository,
 ) : ViewModel() {
 
-    private val _categories: MutableStateFlow<List<MovieCategory>> = MutableStateFlow(emptyList())
-    val categories: Flow<List<MovieCategory>> = _categories
+  private val _categories: MutableStateFlow<List<MovieCategory>> = MutableStateFlow(emptyList())
+  val categories: Flow<List<MovieCategory>> = _categories
 
-    private val _moviesByCategories: MutableStateFlow<Map<String, List<Movie>>> = MutableStateFlow(emptyMap())
-    val moviesByCategories: Flow<Map<String, List<Movie>>> = _moviesByCategories
+  private val _moviesByCategories: MutableStateFlow<Map<String, List<Movie>>> =
+    MutableStateFlow(emptyMap())
+  val moviesByCategories: Flow<Map<String, List<Movie>>> = _moviesByCategories
 
-    init {
-        fetchMoviesByCategories()
-        fetchFavouriteCategories()
+  init {
+    fetchMoviesByCategories()
+    fetchFavouriteCategories()
+  }
+
+  private fun fetchMoviesByCategories() {
+    viewModelScope.launch {
+      val moviesByCategories = movieRepository.fetchMoviesByCategorySuspending()
+      _moviesByCategories.emit(moviesByCategories)
     }
+  }
 
-    private fun fetchMoviesByCategories() {
-        viewModelScope.launch {
-            val moviesByCategories = movieRepository.fetchMoviesByCategorySuspending()
-            _moviesByCategories.emit(moviesByCategories)
-        }
+  private fun fetchFavouriteCategories() {
+    viewModelScope.launch {
+      val favouriteCategories = movieRepository.favouriteCategories()
+      _categories.emit(favouriteCategories)
     }
-
-    private fun fetchFavouriteCategories() {
-        viewModelScope.launch {
-            val favouriteCategories = movieRepository.favouriteCategories()
-            _categories.emit(favouriteCategories)
-        }
-    }
+  }
 }

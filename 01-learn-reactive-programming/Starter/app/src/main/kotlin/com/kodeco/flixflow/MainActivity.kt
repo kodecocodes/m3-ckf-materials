@@ -20,53 +20,53 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
 
-    private val homeView: HomeView by inject()
+  private val homeView: HomeView by inject()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent()
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent()
+  }
 
-    private fun setContent() {
-        setContent {
-            val navController = rememberNavController()
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = Color.White
-            ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = "Home"
-                ) {
-                    composable("Home") {
-                        HomeScreen(
-                            homeView = homeView,
-                            onRatingsClicked = {
-                                navController.navigate("Ratings")
-                            },
-                            onCategoryClicked = { category ->
-                                navController.navigate("Category/$category")
-                            },
-                            onMovieClicked = {
-                                // Placeholder
-                            }
-                        )
-                    }
-                    composable(
-                        route = "Category/{categoryId}",
-                        arguments = listOf(navArgument("categoryId") { type = NavType.StringType })
-                    ) { backStackEntry ->
-                        val categoryId = backStackEntry.arguments?.getString("categoryId")!!
-                        CategoryScreen(
-                            categoryId = categoryId,
-                            onBackClicked = { navController.popBackStack() }
-                        )
-                    }
-                    composable("Ratings") {
-                        RatingScreen(onBackClicked = { navController.popBackStack() })
-                    }
-                }
-            }
+  private fun setContent() {
+    setContent {
+      val navController = rememberNavController()
+      Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = Color.White
+      ) {
+        NavHost(
+          navController = navController,
+          startDestination = "Home"
+        ) {
+          composable("Home") {
+            HomeScreen(
+              homeView = homeView,
+              onRatingsClicked = {
+                navController.navigate("Ratings")
+              },
+              onCategoryClicked = { category ->
+                navController.navigate("Category/$category")
+              },
+              onMovieClicked = {
+                // Placeholder
+              }
+            )
+          }
+          composable(
+            route = "Category/{categoryId}",
+            arguments = listOf(navArgument("categoryId") { type = NavType.StringType })
+          ) { backStackEntry ->
+            val categoryId = backStackEntry.arguments?.getString("categoryId")!!
+            CategoryScreen(
+              categoryId = categoryId,
+              onBackClicked = { navController.popBackStack() }
+            )
+          }
+          composable("Ratings") {
+            RatingScreen(onBackClicked = { navController.popBackStack() })
+          }
         }
+      }
     }
+  }
 }

@@ -11,22 +11,23 @@ import kotlinx.coroutines.flow.MutableStateFlow
  */
 class HomeView {
 
-    private val _categories: MutableStateFlow<List<MovieCategory>> = MutableStateFlow(emptyList())
-    val categories: Flow<List<MovieCategory>> = _categories
+  private val _categories: MutableStateFlow<List<MovieCategory>> = MutableStateFlow(emptyList())
+  val categories: Flow<List<MovieCategory>> = _categories
 
-    private val _moviesByCategories: MutableStateFlow<Map<String, List<Movie>>> = MutableStateFlow(emptyMap())
-    val moviesByCategories: Flow<Map<String, List<Movie>>> = _moviesByCategories
+  private val _moviesByCategories: MutableStateFlow<Map<String, List<Movie>>> =
+    MutableStateFlow(emptyMap())
+  val moviesByCategories: Flow<Map<String, List<Movie>>> = _moviesByCategories
 
-    fun showLoading() {
-        // Dummy method
-    }
+  fun showLoading() {
+    // Dummy method
+  }
 
-    fun hideLoading() {
-        // Dummy method
-    }
+  fun hideLoading() {
+    // Dummy method
+  }
 
-    fun renderData(categories: List<MovieCategory>, movies: Map<String, List<Movie>>) {
-        _categories.tryEmit(categories)
-        _moviesByCategories.tryEmit(movies)
-    }
+  fun renderData(categories: List<MovieCategory>, movies: Map<String, List<Movie>>) {
+    _categories.tryEmit(categories)
+    _moviesByCategories.tryEmit(movies)
+  }
 }

@@ -9,10 +9,11 @@ data class MovieWithRatingViewState(val movieName: String, val rating: Int)
 
 class RatingsViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
-    private val _movies: MutableStateFlow<List<MovieWithRatingViewState>> = MutableStateFlow(emptyList())
-    val movies: Flow<List<MovieWithRatingViewState>> = _movies
+  private val _movies: MutableStateFlow<List<MovieWithRatingViewState>> =
+    MutableStateFlow(emptyList())
+  val movies: Flow<List<MovieWithRatingViewState>> = _movies
 
-    init {
-        // To be implemented
-    }
+  init {
+    // To be implemented
+  }
 }

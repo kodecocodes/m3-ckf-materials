@@ -16,20 +16,20 @@ import org.koin.dsl.module
 
 class FlixFlowApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        startKoin {
-            androidContext(this@FlixFlowApplication)
-            modules(
-                module {
-                    single { MovieRepository(MovieService(), MovieRatingServiceSdk(), MovieDatabase()) }
-                    viewModel { HomeViewModel(get(), get()) }
-                    viewModel { CategoryViewModel(get()) }
-                    viewModel { RatingsViewModel(get()) }
-                    single { HomeView() }
-                }
-            )
+    startKoin {
+      androidContext(this@FlixFlowApplication)
+      modules(
+        module {
+          single { MovieRepository(MovieService(), MovieRatingServiceSdk(), MovieDatabase()) }
+          viewModel { HomeViewModel(get(), get()) }
+          viewModel { CategoryViewModel(get()) }
+          viewModel { RatingsViewModel(get()) }
+          single { HomeView() }
         }
+      )
     }
+  }
 }

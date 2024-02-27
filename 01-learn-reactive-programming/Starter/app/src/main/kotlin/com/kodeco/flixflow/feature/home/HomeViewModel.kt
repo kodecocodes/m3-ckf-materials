@@ -7,28 +7,28 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val movieRepository: MovieRepository,
-    private val homeView: HomeView
+  private val movieRepository: MovieRepository,
+  private val homeView: HomeView
 ) : ViewModel() {
 
-    init {
-        renderView()
+  init {
+    renderView()
+  }
+
+  private fun renderView() {
+    viewModelScope.launch {
+      homeView.showLoading()
+
+      val favouriteCategories = movieRepository.favouriteCategories()
+
+      // Filter/Map categories if needed
+
+      val moviesByCategories = movieRepository.fetchMoviesByCategorySuspending()
+
+      // Filter/Map movies if needed
+
+      homeView.hideLoading()
+      homeView.renderData(favouriteCategories, moviesByCategories)
     }
-
-    private fun renderView() {
-        viewModelScope.launch {
-            homeView.showLoading()
-
-            val favouriteCategories = movieRepository.favouriteCategories()
-
-            // Filter/Map categories if needed
-
-            val moviesByCategories = movieRepository.fetchMoviesByCategorySuspending()
-
-            // Filter/Map movies if needed
-
-            homeView.hideLoading()
-            homeView.renderData(favouriteCategories, moviesByCategories)
-        }
-    }
+  }
 }

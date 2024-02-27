@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CategoryScreen(
-    categoryId: String,
-    onBackClicked: () -> Unit
+  categoryId: String,
+  onBackClicked: () -> Unit
 ) {
 
 }
