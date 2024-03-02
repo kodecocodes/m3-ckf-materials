@@ -1,3 +1,33 @@
+/*
+ * Copyright (c) 2024 Kodeco Inc
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+ * distribute, sublicense, create a derivative work, and/or sell copies of the
+ * Software in any work that is designed, intended, or marketed for pedagogical or
+ * instructional purposes related to programming, coding, application development,
+ * or information technology.  Permission for such use, copying, modification,
+ * merger, publication, distribution, sublicensing, creation of derivative works,
+ * or sale is expressly withheld.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.kodeco.flixflow.feature.home
 
 import androidx.compose.foundation.*
@@ -33,190 +63,190 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    onRatingsClicked: () -> Unit,
-    onCategoryClicked: (String) -> Unit,
-    onMovieClicked: (String) -> Unit
+  onRatingsClicked: () -> Unit,
+  onCategoryClicked: (String) -> Unit,
+  onMovieClicked: (String) -> Unit
 ) {
-    val viewModel = koinViewModel<HomeViewModel>()
+  val viewModel = koinViewModel<HomeViewModel>()
 
-    val categories by viewModel.categories.collectAsState(initial = emptyList())
-    val moviesByCategories by viewModel.moviesByCategories.collectAsState(initial = emptyMap())
+  val categories by viewModel.categories.collectAsState(initial = emptyList())
+  val moviesByCategories by viewModel.moviesByCategories.collectAsState(initial = emptyMap())
 
-    RootContainer(
-        categories = categories,
-        moviesByCategories = moviesByCategories,
-        onRatingsClicked = onRatingsClicked,
-        onCategoryClicked = onCategoryClicked,
-        onMovieClicked = onMovieClicked
-    )
+  RootContainer(
+    categories = categories,
+    moviesByCategories = moviesByCategories,
+    onRatingsClicked = onRatingsClicked,
+    onCategoryClicked = onCategoryClicked,
+    onMovieClicked = onMovieClicked
+  )
 }
 
 @Composable
 private fun RootContainer(
-    categories: List<MovieCategory>,
-    moviesByCategories: Map<String, List<Movie>>,
-    onRatingsClicked: () -> Unit,
-    onCategoryClicked: (String) -> Unit,
-    onMovieClicked: (String) -> Unit
+  categories: List<MovieCategory>,
+  moviesByCategories: Map<String, List<Movie>>,
+  onRatingsClicked: () -> Unit,
+  onCategoryClicked: (String) -> Unit,
+  onMovieClicked: (String) -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
+  Box(
+    modifier = Modifier
+      .fillMaxSize()
+      .background(Color.Black)
+  ) {
+    val scrollState = rememberScrollState()
+    Column(
+      modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(state = scrollState, flingBehavior = ScrollableDefaults.flingBehavior())
     ) {
-        val scrollState = rememberScrollState()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(state = scrollState, flingBehavior = ScrollableDefaults.flingBehavior())
-        ) {
-            TopBar(onRatingsClicked)
-            CategoriesSection(categories = categories, onCategoryClicked = onCategoryClicked)
-            MovieCategories(moviesByCategories = moviesByCategories, onMovieClicked = onMovieClicked)
-        }
+      TopBar(onRatingsClicked)
+      CategoriesSection(categories = categories, onCategoryClicked = onCategoryClicked)
+      MovieCategories(moviesByCategories = moviesByCategories, onMovieClicked = onMovieClicked)
     }
+  }
 }
 
 @Composable
 fun TopBar(onRatingsClicked: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = "FlixFlow",
-            fontSize = 24.sp,
-            color = Color.White
-        )
-        IconButton(onClick = onRatingsClicked) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_movie_filter_24),
-                contentDescription = "Placeholder Icon",
-                modifier = Modifier.size(48.dp),
-                tint = Color.White
-            )
-        }
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(16.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.SpaceBetween
+  ) {
+    Text(
+      text = "FlixFlow",
+      fontSize = 24.sp,
+      color = Color.White
+    )
+    IconButton(onClick = onRatingsClicked) {
+      Icon(
+        painter = painterResource(id = R.drawable.baseline_movie_filter_24),
+        contentDescription = "Placeholder Icon",
+        modifier = Modifier.size(48.dp),
+        tint = Color.White
+      )
     }
+  }
 }
 
 @Composable
 fun CategoriesSection(categories: List<MovieCategory>, onCategoryClicked: (String) -> Unit) {
-    LazyRow(
-        modifier = Modifier.padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        item {
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        items(categories.size) { index ->
-            CategoryChip(category = categories[index], onChipClicked = onCategoryClicked)
-        }
+  LazyRow(
+    modifier = Modifier.padding(vertical = 8.dp),
+    horizontalArrangement = Arrangement.spacedBy(8.dp)
+  ) {
+    item {
+      Spacer(modifier = Modifier.width(8.dp))
     }
+    items(categories.size) { index ->
+      CategoryChip(category = categories[index], onChipClicked = onCategoryClicked)
+    }
+  }
 }
 
 @Composable
 fun CategoryChip(
-    category: MovieCategory,
-    onChipClicked: (String) -> Unit
+  category: MovieCategory,
+  onChipClicked: (String) -> Unit
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    Box(
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(50))
-            .background(color = Color.DarkGray, shape = RoundedCornerShape(50))
-            .clickable(
-                interactionSource = interactionSource,
-                indication = rememberRipple(),
-                onClick = { onChipClicked.invoke(category.id) }
-            )
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        Text(text = category.name, color = Color.White)
-    }
+  val interactionSource = remember { MutableInteractionSource() }
+  Box(
+    modifier = Modifier
+      .clip(shape = RoundedCornerShape(50))
+      .background(color = Color.DarkGray, shape = RoundedCornerShape(50))
+      .clickable(
+        interactionSource = interactionSource,
+        indication = rememberRipple(),
+        onClick = { onChipClicked.invoke(category.id) }
+      )
+      .padding(horizontal = 16.dp, vertical = 8.dp)
+  ) {
+    Text(text = category.name, color = Color.White)
+  }
 }
 
 @Composable
 fun MovieCategories(
-    moviesByCategories: Map<String, List<Movie>>,
-    onMovieClicked: (String) -> Unit
+  moviesByCategories: Map<String, List<Movie>>,
+  onMovieClicked: (String) -> Unit
 ) {
-    moviesByCategories.forEach { (category, movies) ->
-        Column(modifier = Modifier.padding(vertical = 8.dp)) {
-            Row {
-                Text(
-                    text = category, modifier = Modifier
-                        .padding(start = 16.dp, bottom = 8.dp)
-                        .align(Alignment.CenterVertically),
-                    color = Color.White
-                )
-            }
-            MovieCardsRow(movies = movies, onMovieClicked = onMovieClicked)
-        }
+  moviesByCategories.forEach { (category, movies) ->
+    Column(modifier = Modifier.padding(vertical = 8.dp)) {
+      Row {
+        Text(
+          text = category, modifier = Modifier
+            .padding(start = 16.dp, bottom = 8.dp)
+            .align(Alignment.CenterVertically),
+          color = Color.White
+        )
+      }
+      MovieCardsRow(movies = movies, onMovieClicked = onMovieClicked)
     }
+  }
 }
 
 @Composable
 fun MovieCardsRow(movies: List<Movie>, onMovieClicked: (String) -> Unit) {
-    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        item {
-            Spacer(modifier = Modifier.width(8.dp))
-        }
-        items(movies) { movie ->
-            MovieCard(movie = movie, onClicked = onMovieClicked)
-        }
-        item {
-            Spacer(modifier = Modifier.width(8.dp))
-        }
+  LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    item {
+      Spacer(modifier = Modifier.width(8.dp))
     }
+    items(movies) { movie ->
+      MovieCard(movie = movie, onClicked = onMovieClicked)
+    }
+    item {
+      Spacer(modifier = Modifier.width(8.dp))
+    }
+  }
 }
 
 @Composable
 fun MovieCard(movie: Movie, onClicked: (String) -> Unit) {
-    Card(
+  Card(
+    modifier = Modifier
+      .size(width = 140.dp, height = 200.dp),
+    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+    onClick = { onClicked.invoke(movie.id) }
+  ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+      Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(id = movieImages[movie.id]!!),
+        contentDescription = null,
+        contentScale = ContentScale.Crop
+      )
+      Box(
         modifier = Modifier
-            .size(width = 140.dp, height = 200.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = { onClicked.invoke(movie.id) }
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(id = movieImages[movie.id]!!),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
-            )
-            Box(
-                modifier = Modifier
-                    .background(Color.Black.copy(alpha = 0.2f))
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .padding(top = 12.dp)
-                            .align(CenterHorizontally),
-                        painter = painterResource(id = R.drawable.baseline_movie_24),
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                    Text(
-                        text = movie.title,
-                        modifier = Modifier
-                            .align(CenterHorizontally)
-                            .padding(start = 8.dp, top = 24.dp, end = 8.dp),
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        color = Color.White
-                    )
-                }
-            }
-
+          .background(Color.Black.copy(alpha = 0.2f))
+      ) {
+        Column(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          Icon(
+            modifier = Modifier
+              .size(48.dp)
+              .padding(top = 12.dp)
+              .align(CenterHorizontally),
+            painter = painterResource(id = R.drawable.baseline_movie_24),
+            contentDescription = null,
+            tint = Color.White
+          )
+          Text(
+            text = movie.title,
+            modifier = Modifier
+              .align(CenterHorizontally)
+              .padding(start = 8.dp, top = 24.dp, end = 8.dp),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            color = Color.White
+          )
         }
+      }
+
     }
+  }
 }
