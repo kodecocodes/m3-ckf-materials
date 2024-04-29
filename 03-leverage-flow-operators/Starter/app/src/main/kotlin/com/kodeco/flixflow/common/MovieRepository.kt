@@ -44,7 +44,7 @@ class MovieRepository(
 
   fun categories(): Flow<MovieCategory> = categoriesDummyData.asFlow()
 
-  fun fetchFavouriteCategories(): Flow<List<MovieCategory>> = flowOf(favouriteCategoriesDummyData)
+  fun fetchfavoriteCategories(): Flow<List<MovieCategory>> = flowOf(favoriteCategoriesDummyData)
 
   fun fetchMoviesByCategory(): Flow<Map<String, List<Movie>>> = flow {
     val moviesByCategory = movieService.fetchMoviesByCategory()
