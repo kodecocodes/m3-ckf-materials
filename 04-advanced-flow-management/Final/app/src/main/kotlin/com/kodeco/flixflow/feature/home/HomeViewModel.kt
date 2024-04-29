@@ -58,7 +58,7 @@ class HomeViewModel(
 
   init {
     fetchMoviesByCategories()
-    fetchFavouriteCategories()
+    fetchfavoriteCategories()
   }
 
   private fun fetchMoviesByCategories() {
@@ -87,11 +87,11 @@ class HomeViewModel(
     }
   }
 
-  private fun fetchFavouriteCategories() {
+  private fun fetchfavoriteCategories() {
     viewModelScope.launch {
-      movieRepository.fetchFavouriteCategories()
-        .map { favouriteCategories ->
-          favouriteCategories.map {
+      movieRepository.fetchfavoriteCategories()
+        .map { favoriteCategories ->
+          favoriteCategories.map {
             MovieCategoryViewState(
               it.id,
               it.name
