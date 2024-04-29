@@ -32,7 +32,7 @@ package com.kodeco.flixflow.common
 
 import com.kodeco.flixflow.R
 
-val favouriteCategoriesDummyData = listOf(
+val favoriteCategoriesDummyData = listOf(
   MovieCategory("cat-1", "Action"),
   MovieCategory("cat-4", "Fantasy"),
   MovieCategory("cat-6", "Sci-Fi")
