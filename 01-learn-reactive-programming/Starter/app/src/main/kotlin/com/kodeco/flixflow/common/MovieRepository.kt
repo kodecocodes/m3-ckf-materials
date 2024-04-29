@@ -39,8 +39,8 @@ class MovieRepository(
   private val movieDatabase: MovieDatabase
 ) {
 
-  fun favouriteCategories(): List<MovieCategory> {
-    return favouriteCategoriesDummyData
+  fun favoriteCategories(): List<MovieCategory> {
+    return favoriteCategoriesDummyData
   }
 
   suspend fun fetchMoviesByCategorySuspending(): Map<String, List<Movie>> {

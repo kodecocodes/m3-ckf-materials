@@ -49,7 +49,7 @@ class HomeViewModel(
     viewModelScope.launch {
       homeView.showLoading()
 
-      val favouriteCategories = movieRepository.favouriteCategories()
+      val favoriteCategories = movieRepository.favoriteCategories()
 
       // Filter/Map categories if needed
 
@@ -58,7 +58,7 @@ class HomeViewModel(
       // Filter/Map movies if needed
 
       homeView.hideLoading()
-      homeView.renderData(favouriteCategories, moviesByCategories)
+      homeView.renderData(favoriteCategories, moviesByCategories)
     }
   }
 }

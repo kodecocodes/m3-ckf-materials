@@ -49,7 +49,7 @@ class HomeViewModel(
 
   init {
     fetchMoviesByCategories()
-    fetchFavouriteCategories()
+    fetchfavoriteCategories()
   }
 
   private fun fetchMoviesByCategories() {
@@ -59,10 +59,10 @@ class HomeViewModel(
     }
   }
 
-  private fun fetchFavouriteCategories() {
+  private fun fetchfavoriteCategories() {
     viewModelScope.launch {
-      val favouriteCategories = movieRepository.favouriteCategories()
-      _categories.emit(favouriteCategories)
+      val favoriteCategories = movieRepository.favoriteCategories()
+      _categories.emit(favoriteCategories)
     }
   }
 }
